@@ -21,11 +21,11 @@ optional arguments:
 # OpenCARP-Plotter
 ```
 _____________________________________________________
-OpenCARP Plotter
+OpenCARP Plotter 1.0
 Plots multiple txt files created by opencarp at once.
 _____________________________________________________
-usage: opencarp-plotter [-h] [-f FILES [FILES ...]] [-o OUT] [-i IGNORE [IGNORE ...]] [-t TITLE [TITLE ...]]
-                        [-l LEGEND [LEGEND ...]] [-v [VERSION]]
+usage: plotter.py [-h] [-f FILES [FILES ...]] [-o OUT] [-i IGNORE [IGNORE ...]] [-t TITLE [TITLE ...]]
+                  [-l LEGEND [LEGEND ...]] [-xlabel XLABEL [XLABEL ...]] [-ylabel YLABEL [YLABEL ...]] [-v [VERSION]]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -39,6 +39,10 @@ optional arguments:
   -l LEGEND [LEGEND ...], --legend LEGEND [LEGEND ...]
                         Legend location in plot. Options: BEST,UPPER RIGHT,UPPER LEFT,LOWER LEFT,LOWER
                         RIGHT,RIGHT,CENTER LEFT,CENTER RIGHT,LOWER CENTER,UPPER CENTER,CENTER
+  -xlabel XLABEL [XLABEL ...]
+                        Label for x-Axis in plot
+  -ylabel YLABEL [YLABEL ...]
+                        Label for y-Axis in plot
   -v [VERSION], --version [VERSION]
                         Displays current version of the script
 ```
@@ -56,3 +60,13 @@ After installation, make sure your pip installation site is in your PATH. If so,
 
 `opencarp-plotter -f data/i_*.txt data_2/*.txt -i MurineMouse header -t Comparision of voltages in mV -legend upper right`
 will read `data` folder and extract all the files containing `i_` in the name and `.txt` extension. Then it will search for `*.txt` files in `data2` folder and make a list of all files, from which all files containing either `MurineMouse` or `header` in filename are omitted. Now we create a plot with title of `Comparision of voltages in mV` and legends in upper right corner.
+
+## To Do
+Current features being considered:
+
+ - `x-min` for minimum x-Axis value in plot
+ - `x-max` for maximum x-Axis value in plot
+ - `y-min` for minimum y-Axis value in plot
+ - `y-max` for maximum y-Axis value in plot
+
+If you want certain features, feel free to open a  [feature request](https://github.com/regmibijay/opencarp-analyzer/issues).
