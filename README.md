@@ -21,7 +21,7 @@ optional arguments:
 # OpenCARP-Plotter
 ```
 _____________________________________________________
-OpenCARP Plotter 1.0
+OpenCARP Plotter
 Plots multiple txt files created by opencarp at once.
 _____________________________________________________
 usage: plotter.py [-h] [-f FILES [FILES ...]] [-o OUT] [-i IGNORE [IGNORE ...]] [-t TITLE [TITLE ...]]
