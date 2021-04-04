@@ -1,8 +1,12 @@
 import setuptools
 
+with open("README.md","r") as f:
+    long_description = f.read()
 setuptools.setup(
     name='opencarp_analyzer',
-    version='1.0',
+    long_description = long_description,
+    long_description_content_type = "text/markdown",
+    version='1.0.1',
     packages=setuptools.find_packages() ,
     url='https://github.com/regmibijay/opencarp-analyzer',
     license='MIT',
