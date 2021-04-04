@@ -1,7 +1,7 @@
 # OpenCARP-Analyzer
 ```
 _____________________________________________________
-OpenCARP Analyzer 1.0
+OpenCARP Analyzer
 Extracts data and multiple txt files from Trace data created by openCARP at once.
 _____________________________________________________
 usage: opencarp-analyzer [-h] [-c COLUMNS [COLUMNS ...]] [-t TRACE] [-i IION [IION ...]] [-v [VERSION]]
@@ -21,7 +21,7 @@ optional arguments:
 # OpenCARP-Plotter
 ```
 _____________________________________________________
-OpenCARP Plotter 1.0
+OpenCARP Plotter
 Plots multiple txt files created by opencarp at once.
 _____________________________________________________
 usage: opencarp-plotter [-h] [-f FILES [FILES ...]] [-o OUT] [-i IGNORE [IGNORE ...]] [-t TITLE [TITLE ...]]
@@ -52,6 +52,7 @@ After installation, make sure your pip installation site is in your PATH. If so,
 
 ## Examples
 `opencarp-analyzer -c header1.txt header2.txt -t Trace_0.dat -i i_Ks V i_NCX `
- will read `header1.txt` and `header2.txt` and append the column names so content of `header1.txt` is before `header2.txt` and then read `Trace_0.dat` and create a dataframe with corrent column names. Then the given `i_Ks`, `V` and `i_NCX` files are generated in `.txt` format with respective values from `Trace_0.dat`.
- 
-`opencarp-plotter -f data/i_*.txt data_2/*.txt -i MurineMouse header -t Comparision of voltages in mV -legend upper right` will read `data` folder and extract all the files containing `i_` in the name and `.txt` extension. Then it will search for `*.txt` files in `data2` folder and make a list of all files, from with all files containing either `MurineMouse` or `header` in filename are omitted. Now we create a plot with title of `Comparision of voltages in mV` and legends in upper right corner.
+ will read `header1.txt` and `header2.txt` and combine  column names so content of `header1.txt` is before `header2.txt`. After that it reads `Trace_0.dat` and creates a dataframe with given column names. Then the given `i_Ks`, `V` and `i_NCX` files are generated in `.txt` format with respective values from `Trace_0.dat`.
+
+`opencarp-plotter -f data/i_*.txt data_2/*.txt -i MurineMouse header -t Comparision of voltages in mV -legend upper right`
+will read `data` folder and extract all the files containing `i_` in the name and `.txt` extension. Then it will search for `*.txt` files in `data2` folder and make a list of all files, from which all files containing either `MurineMouse` or `header` in filename are omitted. Now we create a plot with title of `Comparision of voltages in mV` and legends in upper right corner.
