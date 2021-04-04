@@ -5,6 +5,7 @@ import sys
 import glob
 from argparse import ArgumentParser
 
+
 class glob_vars():
      loc_positions = {
                             'best' : 	0,
@@ -29,7 +30,7 @@ def read_data(path):
 def main(argv = sys.argv[1:]):
 
     print("_____________________________________________________")
-    print("OpenCARP Plotter 1.0")
+    print("OpenCARP Plotter")
     print("Plots multiple txt files created by opencarp at once.")
     print("_____________________________________________________")
     loc_positions = glob_vars.loc_positions
@@ -39,12 +40,14 @@ def main(argv = sys.argv[1:]):
     parser.add_argument("-i", "--ignore", help="Ignores a file name if this text exists in file", nargs="+")
     parser.add_argument("-t", "--title", help="Title of plot", nargs="+")
     parser.add_argument("-l", "--legend", help="Legend location in plot. Options: " + ",".join(loc_positions.keys()).upper(), nargs="+")
+    parser.add_argument("-xlabel", help="Label for x-Axis in plot", nargs="+")
+    parser.add_argument("-ylabel", help="Label for y-Axis in plot", nargs="+")
     parser.add_argument("-v", "--version", help = "Displays current version of the script", nargs="?", const=True)
     args = parser.parse_args()
 
     if args.version:
         print("Version 1.0, Crossplatfrom compatible build.")
-        print("Report Issues,Suggestions opencarp@regdelivery.de")
+        print("Report Issues,Suggestions https://github.com/regmibijay/opencarp-analyzer")
         exit()
 
 
@@ -57,10 +60,10 @@ def main(argv = sys.argv[1:]):
             if os.path.isdir(item):
                 print("Looking for txt files in ", item)
                 args.files.remove(item)
-                args.files += glob.glob(item + "*.txt")
+                args.files += glob.glob(os.path.join(item , "*.txt"))
 
 
-    if any([x for x in args.files if "*" in x]):   #glob workaround for windows powershell because * is not passed as in darwin.
+    if any([x for x in args.files if "*" in x]):   #glob workaround for windows powershell because * does not pass list of files.
         for elem in args.files:
          args.files.remove(elem)
          args.files += glob.glob(elem)
@@ -82,8 +85,18 @@ def main(argv = sys.argv[1:]):
             df_sum = pd.merge(df_sum, df, on="Time")
 
     if not len(df_sum.columns) == 0:
-        df_sum.plot(x = "Time", xlabel= "Time(in ms)", ylabel="Voltage(in mV)", kind="line")
+        if args.xlabel:
+            xlabel = ' '.join(args.xlabel)
+        else:
+            xlabel = "Time (in ms)"
+        if args.ylabel:
+            ylabel = ' '.join(args.ylabel)
+        else:
+            ylabel = "Voltage (in mV)"
 
+        df_sum.plot(x = "Time", xlabel= xlabel, ylabel=ylabel, kind="line")
+
+        loc_input = 1
         if args.legend:
             leg = ' '.join(args.legend).lower()
             try:
