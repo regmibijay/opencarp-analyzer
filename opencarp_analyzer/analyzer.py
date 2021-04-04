@@ -24,7 +24,7 @@ def check_path(path):
     return True
 def main(argv = sys.argv[1:]):
     print("_____________________________________________________")
-    print("OpenCARP Analyzer 1.0")
+    print("OpenCARP Analyzer")
     print("Extracts data and multiple txt files from Trace data created by openCARP at once.")
     print("_____________________________________________________")
     parser  = ArgumentParser()
