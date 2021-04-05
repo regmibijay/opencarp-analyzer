@@ -4,7 +4,9 @@ import os
 import sys
 import glob
 from argparse import ArgumentParser
-
+import json
+import numpy as np
+from matplotlib import axes as ax
 
 class glob_vars():
      loc_positions = {
@@ -25,7 +27,9 @@ def read_data(path):
     fname, ext = os.path.splitext(os.path.basename(path))
     return pd.read_csv(path, names=["Time", fname], delim_whitespace=True)
 
-
+def version_reader():
+    with open(os.path.join(os.path.dirname(__file__),"version.json"), "r") as f:
+        return json.loads(f.read())
 
 def main(argv = sys.argv[1:]):
 
@@ -42,12 +46,16 @@ def main(argv = sys.argv[1:]):
     parser.add_argument("-l", "--legend", help="Legend location in plot. Options: " + ",".join(loc_positions.keys()).upper(), nargs="+")
     parser.add_argument("-xlabel", help="Label for x-Axis in plot", nargs="+")
     parser.add_argument("-ylabel", help="Label for y-Axis in plot", nargs="+")
+    parser.add_argument("-xlim", help="Limit for x-Axis, start and end separated by space.", nargs="+")
+    parser.add_argument("-ylim", help="Limit for y-Axis, start and end separated by space.", nargs="+")
+    parser.add_argument("-custom", help="Kwargs for matplotlib", nargs="+")
     parser.add_argument("-v", "--version", help = "Displays current version of the script", nargs="?", const=True)
     args = parser.parse_args()
 
     if args.version:
-        print("Version 1.0, Crossplatfrom compatible build.")
-        print("Report Issues,Suggestions https://github.com/regmibijay/opencarp-analyzer")
+        version = version_reader()
+        print (version["version"])
+        print(version["version_description"])
         exit()
 
 
@@ -93,8 +101,27 @@ def main(argv = sys.argv[1:]):
             ylabel = ' '.join(args.ylabel)
         else:
             ylabel = "Voltage (in mV)"
+        if args.xlim:
+            xlim = args.xlim
+        else:
+            xlim = None
+        if args.ylim:
+            ylim = args.ylim
+        else:
+            ylim = None
+        if args.custom is None:
+            custom_kwargs = {}
+        else:
+            custom_kwargs = {}
+            for i in range(0,len(args.custom)-1,2):
+                custom_kwargs[args.custom[i]] = args.custom[i+1]
 
-        df_sum.plot(x = "Time", xlabel= xlabel, ylabel=ylabel, kind="line")
+
+        if len(df_sum.columns) > 12:
+            print("[WARNING] You are plotting a large dataframe. It might be hard to differentiate lines because of limited color palette.")
+
+        print(df_sum)
+        df_sum.plot(x = "Time", xlabel= xlabel, ylabel=ylabel, xlim = xlim, ylim = ylim, kind="line", **custom_kwargs)
 
         loc_input = 1
         if args.legend:
