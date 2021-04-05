@@ -12,7 +12,7 @@ setuptools.setup(
     name='opencarp_analyzer',
     long_description = long_description,
     long_description_content_type = "text/markdown",
-    version= version,
+    version= version["version"],
     packages=setuptools.find_packages() ,
     url='https://github.com/regmibijay/opencarp-analyzer',
     license='MIT',
