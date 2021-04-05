@@ -25,7 +25,8 @@ OpenCARP Plotter
 Plots multiple txt files created by opencarp at once.
 _____________________________________________________
 usage: plotter.py [-h] [-f FILES [FILES ...]] [-o OUT] [-i IGNORE [IGNORE ...]] [-t TITLE [TITLE ...]]
-                  [-l LEGEND [LEGEND ...]] [-xlabel XLABEL [XLABEL ...]] [-ylabel YLABEL [YLABEL ...]] [-v [VERSION]]
+                  [-l LEGEND [LEGEND ...]] [-xlabel XLABEL [XLABEL ...]] [-ylabel YLABEL [YLABEL ...]]
+                  [-xlim XLIM [XLIM ...]] [-ylim YLIM [YLIM ...]] [-custom CUSTOM [CUSTOM ...]] [-v [VERSION]]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -43,13 +44,21 @@ optional arguments:
                         Label for x-Axis in plot
   -ylabel YLABEL [YLABEL ...]
                         Label for y-Axis in plot
+  -xlim XLIM [XLIM ...]
+                        Limit for x-Axis, start and end separated by space.
+  -ylim YLIM [YLIM ...]
+                        Limit for y-Axis, start and end separated by space.
+  -custom CUSTOM [CUSTOM ...]
+                        Kwargs for matplotlib
   -v [VERSION], --version [VERSION]
-                        Displays current version of the script
+                        Displays current version of the scripts
 ```
 
 ## Installation
 
-Install current version of this toolkit using `pip install opencarp-analyzer` or using `pip install git+https://github.com/regmibijay/opencarp-analyzer`
+Install current version of this toolkit using
+ `pip install opencarp-analyzer`
+  or using `pip install git+https://github.com/regmibijay/opencarp-analyzer`
 
 ## Usage
 After installation, make sure your pip installation site is in your PATH. If so, you will be able to use `opencarp-analyzer` and `opencarp-plotter` from CLI.
