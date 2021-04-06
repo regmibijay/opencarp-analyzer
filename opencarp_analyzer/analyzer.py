@@ -31,6 +31,7 @@ def main(argv = sys.argv[1:]):
     parser.add_argument("-c", "--columns", help = "Name of files that contain header data", nargs = "+")
     parser.add_argument("-t", "--trace", help="Trace data file, e.g. Trace_0.dat")
     parser.add_argument("-i", "--iion", help = "Ion you want to visualize, e.g. -i i_Ks ", nargs = "+")
+    parser.add_argument("-s", "--suffix", help="Suffix to be added behind every exported file name.", nargs="?", type = str)
     parser.add_argument("-v", "--version", help = "Displays current version of the script", nargs="?", const=True)
 
     args = parser.parse_args()
@@ -56,6 +57,12 @@ def main(argv = sys.argv[1:]):
         print(*columns)
         exit()
 
+    if args.suffix:
+        suffix = args.suffix
+    else:
+        suffix = ""
+
+
     for elem in args.iion:
         if not elem in columns:
             print(f"[ERROR] {elem} is not in your header files")
@@ -71,9 +78,9 @@ def main(argv = sys.argv[1:]):
         lines = []
         for i in range(0, len(value)):
             lines.append(str(time[i]) +" "+  str(float(value[i]))+ os.linesep)
-        with open (elem + ".txt", "w") as f:
+        with open (elem + suffix +  ".txt", "w") as f:
             f.writelines(lines)
-        print("[INFO] ", elem + ".txt was generated.")
+        print("[INFO] ", elem + suffix + ".txt was generated.")
 
 
 if __name__ == "__main__":

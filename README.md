@@ -12,7 +12,7 @@ _____________________________________________________
 OpenCARP Analyzer
 Extracts data and multiple txt files from Trace data created by openCARP at once.
 _____________________________________________________
-usage: opencarp-analyzer [-h] [-c COLUMNS [COLUMNS ...]] [-t TRACE] [-i IION [IION ...]] [-v [VERSION]]
+usage: analyzer.py [-h] [-c COLUMNS [COLUMNS ...]] [-t TRACE] [-i IION [IION ...]] [-s [SUFFIX]] [-v [VERSION]]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -22,6 +22,8 @@ optional arguments:
                         Trace data file, e.g. Trace_0.dat
   -i IION [IION ...], --iion IION [IION ...]
                         Ion you want to visualize, e.g. -i i_Ks
+  -s [SUFFIX], --suffix [SUFFIX]
+                        Suffix to be added behind every exported file name.
   -v [VERSION], --version [VERSION]
                         Displays current version of the script
  ```
