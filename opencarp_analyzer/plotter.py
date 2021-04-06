@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import os
 import sys
 import glob
-from argparse import ArgumentParser
+from argparse import ArgumentParser,ArgumentTypeError
 import json
 import numpy as np
 
@@ -27,8 +27,13 @@ def read_data(path):
     return pd.read_csv(path, names=["Time", fname], delim_whitespace=True)
 
 def version_reader():
-    with open(os.path.join(os.path.dirname(__file__),"version.json"), "r") as f:
-        return json.loads(f.read())
+    try:
+        with open(os.path.join(os.path.dirname(__file__),"version.json"), "r") as f:
+            return json.loads(f.read())
+    except FileNotFoundError:
+        with open(os.path.join(os.path.dirname(__file__),"opencarp_analyzer", "version.json"), "r") as f:
+            return json.loads(f.read())
+
 
 def is_int(s):
      try:
@@ -36,12 +41,21 @@ def is_int(s):
         return True
      except ValueError:
         return False
+
 def is_float(s):
      try:
         float(s)
         return True
      except ValueError:
         return False
+
+def check_number(s):
+    if is_int(s):
+        return int(s)
+    elif is_float(s):
+        return float(s)
+    else:
+        raise ArgumentTypeError("not a valid int or float number.")
 
 def main(argv = sys.argv[1:]):
 
@@ -58,8 +72,8 @@ def main(argv = sys.argv[1:]):
     parser.add_argument("-l", "--legend", help="Legend location in plot. Options: " + ",".join(loc_positions.keys()).upper(), nargs="+")
     parser.add_argument("-xlabel", help="Label for x-Axis in plot", nargs="+")
     parser.add_argument("-ylabel", help="Label for y-Axis in plot", nargs="+")
-    parser.add_argument("-xlim", help="Limit for x-Axis, start and end separated by space.", nargs="+", type= int)
-    parser.add_argument("-ylim", help="Limit for y-Axis, start and end separated by space.", nargs="+", type = int)
+    parser.add_argument("-xlim", help="Limit for x-Axis, start and end separated by space.", nargs="+", type= check_number)
+    parser.add_argument("-ylim", help="Limit for y-Axis, start and end separated by space.", nargs="+", type = check_number)
     parser.add_argument("-custom", help="Kwargs for matplotlib", nargs="+")
     parser.add_argument("-v", "--version", help = "Displays current version of the script", nargs="?", const=True)
     args = parser.parse_args()
