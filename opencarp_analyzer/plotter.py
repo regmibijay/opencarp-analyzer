@@ -6,7 +6,6 @@ import glob
 from argparse import ArgumentParser
 import json
 import numpy as np
-from matplotlib import axes as ax
 
 class glob_vars():
      loc_positions = {
@@ -24,12 +23,25 @@ class glob_vars():
                             }
 
 def read_data(path):
-    fname, ext = os.path.splitext(os.path.basename(path))
+    fname = os.path.splitext(os.path.basename(path))[0]
     return pd.read_csv(path, names=["Time", fname], delim_whitespace=True)
 
 def version_reader():
     with open(os.path.join(os.path.dirname(__file__),"version.json"), "r") as f:
         return json.loads(f.read())
+
+def is_int(s):
+     try:
+        int(s)
+        return True
+     except ValueError:
+        return False
+def is_float(s):
+     try:
+        float(s)
+        return True
+     except ValueError:
+        return False
 
 def main(argv = sys.argv[1:]):
 
@@ -46,8 +58,8 @@ def main(argv = sys.argv[1:]):
     parser.add_argument("-l", "--legend", help="Legend location in plot. Options: " + ",".join(loc_positions.keys()).upper(), nargs="+")
     parser.add_argument("-xlabel", help="Label for x-Axis in plot", nargs="+")
     parser.add_argument("-ylabel", help="Label for y-Axis in plot", nargs="+")
-    parser.add_argument("-xlim", help="Limit for x-Axis, start and end separated by space.", nargs="+")
-    parser.add_argument("-ylim", help="Limit for y-Axis, start and end separated by space.", nargs="+")
+    parser.add_argument("-xlim", help="Limit for x-Axis, start and end separated by space.", nargs="+", type= int)
+    parser.add_argument("-ylim", help="Limit for y-Axis, start and end separated by space.", nargs="+", type = int)
     parser.add_argument("-custom", help="Kwargs for matplotlib", nargs="+")
     parser.add_argument("-v", "--version", help = "Displays current version of the script", nargs="?", const=True)
     args = parser.parse_args()
@@ -60,7 +72,7 @@ def main(argv = sys.argv[1:]):
 
 
     if not args.files:
-        print("[ERROR] Please specify at least one input file created by auswerter.py with -f or --f file.txt")
+        print("[ERROR] Please specify at least one input file created by opencarp-analyzer with -f or --file file.txt")
         exit()
 
     if args.files:
@@ -113,15 +125,29 @@ def main(argv = sys.argv[1:]):
             custom_kwargs = {}
         else:
             custom_kwargs = {}
+
+            #parsing custom kwargs for respecting datatypes for maximum compatibility with matplotlib kwargs
             for i in range(0,len(args.custom)-1,2):
+                if args.custom[i+1].lower() == "true":
+                    args.custom[i+1] = True
+                elif args.custom[i+1].lower() =="false":
+                    args.custom[i+1] = False
+                elif "(" in args.custom[i+1]:
+                    str_tuple = args.custom[i+1].replace("(","").replace(")","")
+                    args.custom[i+1] = tuple([int(x) for x in str_tuple.split(",")])
+                elif is_int(args.custom[i+1]):
+                    args.custom[i+1] = int(args.custom[i+1])
+                elif is_float(args.custom[i+1]):
+                    args.custom[i+1] = float(args.custom[i+1])
+
+                 #ready dict with string->dtype conversion
                 custom_kwargs[args.custom[i]] = args.custom[i+1]
 
 
         if len(df_sum.columns) > 12:
             print("[WARNING] You are plotting a large dataframe. It might be hard to differentiate lines because of limited color palette.")
 
-        print(df_sum)
-        df_sum.plot(x = "Time", xlabel= xlabel, ylabel=ylabel, xlim = xlim, ylim = ylim, kind="line", **custom_kwargs)
+        df_sum.plot.line(x = "Time", xlabel= xlabel, ylabel=ylabel, xlim = xlim, ylim = ylim, **custom_kwargs)
 
         loc_input = 1
         if args.legend:
