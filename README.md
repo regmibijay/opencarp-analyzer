@@ -1,4 +1,12 @@
 # OpenCARP-Analyzer
+
+creates a list of csv-formatted files for each ion channel and current with inbuilt `opencarp-analyzer` command and then plots them as line graph with `opencarp-plotter` command.
+
+
+## OpenCARP-Analyzer
+
+Data generation module
+
 ```
 _____________________________________________________
 OpenCARP Analyzer
@@ -18,7 +26,8 @@ optional arguments:
                         Displays current version of the script
  ```
 
-# OpenCARP-Plotter
+## OpenCARP-Plotter
+Data visualization module
 ```
 _____________________________________________________
 OpenCARP Plotter
@@ -73,9 +82,6 @@ will read `data` folder and extract all the files containing `i_` in the name an
 ## To Do
 Current features being considered:
 
- - `x-min` for minimum x-Axis value in plot
- - `x-max` for maximum x-Axis value in plot
- - `y-min` for minimum y-Axis value in plot
- - `y-max` for maximum y-Axis value in plot
+`color-palettes` to specify custom colors for each line.
 
 If you want certain features, feel free to open a  [feature request](https://github.com/regmibijay/opencarp-analyzer/issues).
