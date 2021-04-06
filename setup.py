@@ -5,7 +5,7 @@ import os
 with open("README.md","r") as f:
     long_description = f.read()
 
-with open(os.path.join("opencarp_analyzer","version.json"),"r") as f:
+with open(os.path.join(".","opencarp_analyzer","version.json"),"r") as f:
     version = json.loads(f.read())
 
 setuptools.setup(
