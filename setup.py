@@ -5,7 +5,7 @@ import os
 with open("README.md","r") as f:
     long_description = f.read()
 
-with open(os.path.join(".","opencarp_analyzer","version.json"),"r") as f:
+with open(os.path.join(os.path.dirname(__file__),"opencarp_analyzer","version.json"),"r") as f:
     version = json.loads(f.read())
 
 setuptools.setup(
@@ -14,6 +14,8 @@ setuptools.setup(
     long_description_content_type = "text/markdown",
     version= version["version"],
     packages=setuptools.find_packages() ,
+    data_files = [("opencarp_analyzer", ["opencarp_analyzer/version.json"])],
+    include_package_data=True,
     url='https://github.com/regmibijay/opencarp-analyzer',
     license='MIT',
     author='Bijay Regmi',
