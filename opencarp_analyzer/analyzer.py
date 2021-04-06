@@ -2,7 +2,7 @@ import os
 import sys
 import pandas as pd
 from argparse import ArgumentParser
-
+import json
 
 def read_columns(path):
     columns = []
@@ -12,6 +12,15 @@ def read_columns(path):
                 for x  in lines:
                     columns.append(x.strip("\n"))
     return columns
+
+def version_reader():
+    try:
+        with open(os.path.join(os.path.dirname(__file__),"version.json"), "r") as f:
+            return json.loads(f.read())
+    except FileNotFoundError:
+        with open(os.path.join(os.path.dirname(__file__),"opencarp_analyzer", "version.json"), "r") as f:
+            return json.loads(f.read())
+
 
 def read_data(path, columns):
     dataframe = pd.read_csv(path, delim_whitespace= True, lineterminator='\n', names = columns, dtype=float )
@@ -37,8 +46,9 @@ def main(argv = sys.argv[1:]):
     args = parser.parse_args()
 
     if args.version:
-        print("Version 1.0, Crossplatfrom compatible build.")
-        print("Report Issues,Suggestions opencarp@regdelivery.de")
+        version = version_reader()
+        print (version["version"])
+        print(version["version_description"])
         exit()
 
 
